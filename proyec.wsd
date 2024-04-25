@@ -1,0 +1,90 @@
+
+
+#### APP para formulario de gustos de carros.
+
+#### Necesidad:  Se tiene 4 entidades las cuales debos de ponerle diferente cantidades de atributos para poder hacer un formulario
+#### Categoria de carros (4)
+#### Autos (6)
+#### Autospersona
+#### Persona 
+
+#### Análisis: Definición de requerimientos.
+
+1. RF1:La persona debe de escribir su nombre y CC para poder ingresar el gusto del carro
+2. RF2:Que categoria de carro le gusta.
+3. RF3:Que cantidad de carro tiene esta persona.
+
+
+#### Diseñar Base de Datos
+Datos a tener en cuenta
+
+| código | Nombre categoria | Descripcion | Imagen|Persona |Autospersona| 
+|--------|------------------|-------------|-------|--------|------------| 
+| 101    |C-101             |Carro        |Imagen2|Pablo   | 3          | 
+| 102    |C-102             |Automobil    |       |Maria   |  1         | 
+| 112    |B-112             |             |Imagen3|        |            | 
+| 112    |B-112             |             |Imagen4|        |            | 
+
+* De lo anterior, se puede resaltar lo siguiente, si bien es cierto, se puede ingresar los datos sin normalización, se sabe que es necesario para la optimización y traza de los datos.
+
+En este sentido, se procede a normarlizar de la siguiente manera.
+
+* La clasificación de los carros, cantidad de carros.
+
+`Categorìacarro`
+|ID| código | Nombre categoria | Descripcion | Imagen|  
+|--|--------|------------------|-------------|-------|
+|1 | 101    |C-101             |Carro        |Imagen2| 
+|2 | 102    |C-102             |Automobil    |       |
+|3 | 112    |B-112             |             |Imagen3|
+|4 | 112    |B-112             |             |Imagen4|
+*vamos a poner la informacion del auto , 
+
+`Auto`
+| id    | Marca |  Modelo    | Estado |Precio|categoria_id     |
+|-------|-------|------------|--------|------|-----------------|
+|   1   | toyota| 17-04-2024 |   4    |      |12000            |
+|   2   | nisa  | 17-04-2024 |   3    |      |                 |
+|   3   |       | 20-5-2024  |   3    |      |                 |
+`AutoPersona`
+| id    | Nom_Dueño |  Correo    | Telefono |
+|-------|-----------|------------|----------|
+|   1   | Maicol    |            |   58699  |
+|   2   | nisa      |            |   3      |
+|   3   |           |            |   3      |
+`Persona`
+| id    | Nombre |  Apellido |Ocupacion|Direccion|Fecha nacimiento|
+|-------|-------|------------|---------|---------|----------------|
+|   1   | toyota| 17-04-2024 |   4     |         |12000           |
+|   2   | nisa  | 17-04-2024 |   3     |         |                |
+|   3   |       | 20-5-2024  |   3     |         |                |
+
+
+> Ver
+
+
+> Script de la base de datos
+```sql
+DROP DATABASE IF EXISTS cultivo;
+
+CREATE DATABASE cultivo;
+
+USE cultivo;
+
+CREATE table Categorìacarro(
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+codigo VARCHAR(50) NOT NULL UNIQUE,
+Nombre_categoria VARCHAR(50) NOT NULL,
+Descripcion INT NOT NULL,
+Imagen BIT DEFAULT TRUE
+);
+
+CREATE table Auto(
+id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+Marca VARCHAR(50) NOT NULL,
+Modelo DATE NOT NULL,
+Precio DATE NOT NULL,
+Categoria_id INT NOT NULL,
+FOREIGN KEY (Categoria_id) REFERENCES Auto(id)
+);
+
