@@ -1,0 +1,45 @@
+@startuml
+
+
+CREATE TABLE Categoriacarro (
+    ID INT PRIMARY KEY,
+    codigo VARCHAR(50),
+    Nombre_categoria VARCHAR(50),
+    Descripcion VARCHAR(100),
+    Imagen VARCHAR(100)
+);
+
+
+CREATE TABLE Auto (
+    id INT PRIMARY KEY,
+    Marca VARCHAR(50),
+    Modelo DATE,
+    Estado INT,
+    Precio DECIMAL(10, 2),
+    categoria_id INT,
+    FOREIGN KEY (categoria_id) REFERENCES Categoriacarro(ID)
+);
+
+
+CREATE TABLE AutoPersona (
+    id INT PRIMARY KEY,
+    Nom_Dueño VARCHAR(50),
+    Correo VARCHAR(100),
+    Telefono INT(15),
+    auto_id INT,
+    FOREIGN KEY (auto_id) REFERENCES Auto(id)
+);
+
+
+CREATE TABLE Persona (
+    id INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Apellido VARCHAR(50),
+    Ocupacion VARCHAR(50),
+    Direccion VARCHAR(100),
+    Fecha_nacimiento DATE,
+    auto_id INT,
+    FOREIGN KEY (auto_id) REFERENCES Auto(id)
+);
+
+@enduml

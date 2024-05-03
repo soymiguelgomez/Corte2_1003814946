@@ -1,0 +1,119 @@
+@startuml
+
+
+#### APP para formulario de gustos de carros.
+
+#### Necesidad: Se tiene 4 entidades las cuales debos de ponerle diferente cantidades de atributos para poder hacer un formulario
+#### Categoria de carros (4)
+#### Autos (6)
+#### Autospersona(4)
+#### Persona (6)
+
+#### Análisis: Definición de requerimientos.
+
+1. RF1:La persona debe de escribir su nombre y CC para poder ingresar el gusto del carro
+2. RF2:Que categoria de carro le gusta.
+3. RF3:Que cantidad de carro tiene esta persona.
+
+1. RNF1:Base de datos en SQL
+2. RNF2:Angular
+3. RNF3:Desarollo en visual Studio
+
+
+#### Diseñar Base de Datos
+Datos a tener en cuenta
+
+| código | Nombre categoria | Descripcion | Imagen|Persona |Autospersona| 
+|--------|------------------|-------------|-------|--------|------------| 
+| 101    |C-101             |Carro        |Imagen2|Pablo   | 3          | 
+| 102    |C-102             |Automobil    |       |Maria   |  1         | 
+| 112    |B-112             |             |Imagen3|        |            | 
+| 112    |B-112             |             |Imagen4|        |            | 
+
+* De lo anterior, se puede resaltar lo siguiente, si bien es cierto, se puede ingresar los datos sin normalización, se sabe que es necesario para la optimización y traza de los datos.
+
+En este sentido, se procede a normarlizar de la siguiente manera.
+
+* La clasificación de los carros, cantidad de carros.
+
+`Categorìacarro`
+|ID| código | Nombre categoria | Descripcion | Imagen|  
+|--|--------|------------------|-------------|-------|
+|1 | 101    |C-101             |Carro        |Imagen2| 
+|2 | 102    |C-102             |Automobil    |       |
+|3 | 112    |B-112             |             |Imagen3|
+|4 | 112    |B-112             |             |Imagen4|
+*vamos a poner la informacion del auto , 
+
+`Auto`
+| id    | Marca |  Modelo    | Estado |Precio|categoria_id     |
+|-------|-------|------------|--------|------|-----------------|
+|   1   | toyota| 17-04-2024 |   4    |      |12000            |
+|   2   | nisa  | 17-04-2024 |   3    |      |                 |
+|   3   |       | 20-5-2024  |   3    |      |                 |
+
+`AutoPersona`
+| id    | Nom_Dueño |  Correo    | Telefono |
+|-------|-----------|------------|----------|
+|   1   | Maicol    |            |   58699  |
+|   2   | pablo    |            |   3      |
+|   3   |           |            |   3      |
+
+`Persona`
+| id    | Nombre |  Apellido |Ocupacion|Direccion|Fecha nacimiento|
+|-------|--------|-----------|---------|---------|----------------|
+|   1   | pablo  | Gutierrez |   Jefe  |   NA    |12/02/2000      |
+|   2   | Juan   | Gutierrez |   Mesero|    NA   |                |
+|   3   |        |           |   3     |         |                |
+
+
+> Ver https://trello.com/invite/b/aD3bwGv3/ATTIc3d94fd86620fb3ed6c59452828edc3242C014A5/parcial-corte-2
+
+> Ver video https://youtu.be/u3M7A5SdS3g
+
+> Script de la base de datos
+```sql
+
+DROP DATABASE IF EXISTS cultivo;
+-- Crear tabla Categoriacarro
+CREATE TABLE Categoriacarro (
+    ID INT PRIMARY KEY,
+    codigo VARCHAR(50),
+    Nombre_categoria VARCHAR(50),
+    Descripcion VARCHAR(100),
+    Imagen VARCHAR(100)
+);
+
+-- Crear tabla Auto
+CREATE TABLE Auto (
+    id INT PRIMARY KEY,
+    Marca VARCHAR(50),
+    Modelo DATE,
+    Estado INT,
+    Precio DECIMAL(10, 2),
+    categoria_id INT,
+    FOREIGN KEY (categoria_id) REFERENCES Categoriacarro(ID)
+);
+
+-- Crear tabla AutoPersona
+CREATE TABLE AutoPersona (
+    id INT PRIMARY KEY,
+    Nom_Dueño VARCHAR(50),
+    Correo VARCHAR(100),
+    Telefono INT(15),
+    auto_id INT,
+    FOREIGN KEY (auto_id) REFERENCES Auto(id)
+);
+
+-- Crear tabla Persona
+CREATE TABLE Persona (
+    id INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Apellido VARCHAR(50),
+    Ocupacion VARCHAR(50),
+    Direccion VARCHAR(100),
+    Fecha_nacimiento DATE,
+    auto_id INT,
+    FOREIGN KEY (auto_id) REFERENCES Auto(id)
+);
+@enduml
